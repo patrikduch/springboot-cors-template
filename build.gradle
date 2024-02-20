@@ -1,0 +1,47 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.2'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id 'com.avast.gradle.docker-compose' version '0.14.9'
+}
+
+group = 'com.patrikduch'
+version = '1.0.0-SNAPSHOT'
+
+jar {
+	archiveBaseName.set('springboot-cors-template')
+	archiveVersion.set('1.0.0')
+	archiveClassifier.set('')
+	archiveExtension.set('jar')
+}
+
+java {
+	sourceCompatibility = '21'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+dockerCompose {
+	useComposeFiles = ['docker-compose.yml']
+}
